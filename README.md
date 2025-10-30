@@ -59,7 +59,7 @@ Akses di browser:
 3. Pastikan file `vercel.json` sudah ada di root folder
 4. Klik **Deploy**
 5. Tunggu beberapa detik, situs kamu akan tersedia di:
-   🔗 `https://igdl.yogaasz.vercel.app` *(contoh URL)*
+   🔗 `https://instagramdown.vercel.app/` *(contoh URL)*
 
 ---
 
@@ -105,14 +105,6 @@ https://api-pay-gold.vercel.app/download/instagram?apikey=yogaasz&url=<URL_VIDEO
 3. Backend memanggil API utama `api-pay-gold.vercel.app` menggunakan API key.
 4. Server mengembalikan data video ke frontend.
 5. Pengguna dapat melihat **thumbnail** dan menekan **Download Video**.
-
----
-
-## 🖼️ Tampilan
-
-![Preview](https://i.ibb.co/tbD6ZKx/igdl-preview.png)
-
-*(Tambahkan screenshot hasil deploy Vercel-mu di sini setelah online)*
 
 ---
 
