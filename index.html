@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Instagram Video Downloader - Yogaasz</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: { colors: { primary: '#22d3ee', dark: '#0f172a' } }
+        extend: {
+          colors: {
+            primary: '#22d3ee',
+            dark: '#0f172a'
+          }
+        }
       }
     }
   </script>
@@ -27,6 +32,8 @@
       Download Sekarang
     </button>
 
+    <div id="loading" class="hidden mt-3 text-sm text-gray-400 animate-pulse">⏳ Mengambil data dari Instagram...</div>
+
     <div id="result" class="mt-6 hidden">
       <img id="thumb" src="" alt="Thumbnail"
         class="rounded-xl shadow-md w-full mb-4 border border-gray-700">
@@ -34,6 +41,67 @@
         class="inline-block bg-green-500 hover:bg-green-400 text-white font-semibold px-4 py-2 rounded-lg">
         ⬇️ Download Video
       </a>
+    </div>
+
+    <p id="error" class="text-red-400 text-sm mt-3 hidden"></p>
+  </div>
+
+  <footer class="mt-6 text-gray-500 text-xs text-center">
+    © 2025 <a href="https://yogaasz.id" class="text-primary hover:underline">Yogaasz</a> - All Rights Reserved
+  </footer>
+
+  <script>
+    const btn = document.getElementById("downloadBtn");
+    const result = document.getElementById("result");
+    const thumb = document.getElementById("thumb");
+    const link = document.getElementById("link");
+    const error = document.getElementById("error");
+    const loading = document.getElementById("loading");
+
+    btn.addEventListener("click", async () => {
+      const url = document.getElementById("url").value.trim();
+      if (!url) {
+        error.textContent = "Masukkan URL terlebih dahulu.";
+        error.classList.remove("hidden");
+        return;
+      }
+
+      error.classList.add("hidden");
+      result.classList.add("hidden");
+      loading.classList.remove("hidden");
+      btn.textContent = "Sedang memproses...";
+      btn.disabled = true;
+
+      try {
+        // Gunakan proxy agar tidak error CORS
+        const api = `https://api-pay-gold.vercel.app/download/instagram?apikey=yogaasz&url=${encodeURIComponent(url)}`;
+        const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(api)}`;
+
+        const res = await fetch(proxy);
+        const proxyData = await res.json();
+
+        const data = JSON.parse(proxyData.contents);
+
+        if (data.status && data.result && data.result.length > 0) {
+          const v = data.result[0];
+          thumb.src = v.thumbnail;
+          link.href = v.url_download;
+          result.classList.remove("hidden");
+        } else {
+          throw new Error("Video tidak ditemukan atau API error.");
+        }
+      } catch (err) {
+        error.textContent = "❌ " + err.message;
+        error.classList.remove("hidden");
+      } finally {
+        btn.textContent = "Download Sekarang";
+        btn.disabled = false;
+        loading.classList.add("hidden");
+      }
+    });
+  </script>
+</body>
+</html>
     </div>
 
     <p id="error" class="text-red-400 text-sm mt-3 hidden"></p>
